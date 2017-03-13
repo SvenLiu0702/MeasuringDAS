@@ -1,5 +1,6 @@
 package com.mdas;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,13 +22,18 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
+
+import com.mdas.MyColorUtils.MyColor;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.border.BevelBorder;
 
 public class MainWindow {
 
 	private static JFrame frame;
-	private JTextField textField;
 	private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
 	/**
 	 * Launch the application.
@@ -71,19 +77,6 @@ public class MainWindow {
 					+ " on this platform:" + e.getMessage());
 		}
 	}
-	
-	private void switchLnF(String LnF){	
-		try {
-			JFrame.setDefaultLookAndFeelDecorated(true);
-			JDialog.setDefaultLookAndFeelDecorated(true);
-			UIManager.setLookAndFeel(LnF);
-			SwingUtilities.updateComponentTreeUI(frame);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("Cannot install " + LnF
-					+ " on this platform:" + e.getMessage());
-		}
-	}
 	/**
 	 * Create the application.
 	 */
@@ -100,41 +93,18 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(MyColorUtils.getColor(MyColor.MAIN_DARK));
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(69, 60, 162, 26);
-		panel.add(lblNewLabel);
-		
-		textField = new JTextField();
-		textField.setBounds(320, 73, 66, 21);
-		panel.add(textField);
-		textField.setColumns(10);
-		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"a", "b", "c", "d", "e", "f"}));
 		comboBox.setBounds(55, 134, 81, 21);
+		comboBox.setBackground(MyColorUtils.getColor(MyColor.MAIN_GREY_PANEL));
+		comboBox.setOpaque(true);
+		comboBox.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		comboBox.setForeground(Color.WHITE);
+		comboBox.setUI(new MyComboBoxUI());
 		panel.add(comboBox);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				switchLnF("com.jtattoo.plaf.noire.NoireLookAndFeel");
-			}
-		});
-		btnNewButton.setBounds(213, 133, 93, 23);
-		panel.add(btnNewButton);
-		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("New radio button");
-		rdbtnNewRadioButton.setBounds(421, 133, 121, 23);
-		panel.add(rdbtnNewRadioButton);
-		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(200, 20, 280, 21);
-		panel.add(menuBar);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
-		mntmNewMenuItem.setBounds(140, 233, 135, 22);
-		panel.add(mntmNewMenuItem);
 	}
 }
